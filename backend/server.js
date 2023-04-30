@@ -65,7 +65,7 @@ app.put('/edit-cars/:id', (req, res) => {
         req.body.Ano,
     ];
 
-    db.query(sql, [...values], (err)=>{
+    db.query(sql, [...values], (err) => {
             if(err) return res.status(400).json({
                 error: true,
                 mensagem: "Erro: Não foi possivel Alterar o carro. "

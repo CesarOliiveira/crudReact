@@ -1,18 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
-import Carros from '../components/Form';
-import Edited from '../components/Edited';
-import Tabela from '../components/Tabela';
+import Routes from './routes/routes';
+
 
 
 function App() {
-  
-
   return (
     <>
-      <Carros/>
-      <Tabela />
-      <Edited/>
+      <Routes/>
     </>
   );
 }
