@@ -46,6 +46,7 @@ const Tabela = () => {
             ))}  
             </tbody>
             </table>
+            
         </div>
     )
 }

@@ -2,56 +2,55 @@ import axios from 'axios';
 import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 
+type Details = {
+    marca: string,
+    modelo: string,
+    ano: string,
+}   
+
+
 const Edited = () => {
-    const [data, setData] = useState([]);
-    const [carro, setCarro] = useState('');
-    const [modelo, setModelo] = useState('');
-    const [ano, setAno] = useState('');
-
     const { id } = useParams();
-    
-    const getCarros = () => {
-        
-    };
-    
+    const [values, setValues] = useState<Details>({
+        marca: '',
+        modelo: '',
+        ano: '',
+    });
 
-    useEffect(() => {
-        getCarros();
-    }, [data]);
-   
-    const handleCarro = (event) => {
-        const { value } = event.target;
-        setCarro(value);
-    }
-    const handleModelo = (event) => {
-        const { value } = event.target;
-        setModelo(value);
-    }
-    const handleAno = (event) => {
-        const { value } = event.target;
-        setAno(value);
-    }
+      useEffect(() => {
+        axios.get(`http://localhost:8081/cars/${id}`)
+        .then(response => setValues({
+            marca: response.data[0].Marca, 
+            modelo: response.data[0].Modelo, 
+            ano: response.data[0].Ano
+        }));
+      }, []);
 
-    const editCarro = (id) => {
-        axios.put(`http://localhost:8081/edit-cars/` + id, {
-            Marca: carro,
-            Modelo: modelo,
-            Ano: ano
-        });
+
+    const editCarro = async() => {
+               await axios.put(`http://localhost:8081/edit-cars/${id}`, {
+                 Marca: values.marca,
+                 Modelo: values.modelo,
+                 Ano: values.ano
+               })
+               .then((data) => console.log(data))
+               .catch((data) => console.log(data)); 
     }
     return (
         <>
             <div>
+            
                 <form>
                     <h1>Alterar Dados</h1>
                     <h3>Carro</h3>
-                    <input type="text" name="marca" placeholder='Alterar Carro' value={carro} onChange={handleCarro}/>
+                    <input type="text" name="marca" placeholder='Alterar Carro' value={values.marca} onChange={e => setValues({...values, marca: e.target.value })}/>
                     <h3>Modelo</h3>
-                    <input type="text" name="modelo" placeholder='Alterar Modelo' value={modelo} onChange={handleModelo}/>
+                    <input type="text" name="modelo" placeholder='Alterar Modelo' value={values.modelo} onChange={e => setValues({...values, modelo: e.target.value })}/>
                     <h3>Ano</h3>
-                    <input type="text" name="ano" placeholder='Alterar Ano' value={ano} onChange={handleAno}/>
-                    <input type="submit" value="Alterar" onClick={() => editCarro(data.Id)}/>
+                    <input type="text" name="ano" placeholder='Alterar Ano' value={values.ano} onChange={e => setValues({...values, ano: e.target.value })}/>
+                    <input type="button" value="Alterar" onClick={() => editCarro()}/>
                 </form>
+            
             </div>
         </>
     );
