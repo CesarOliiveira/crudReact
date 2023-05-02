@@ -1,3 +1,3 @@
-# CRU em ReactJS e NodeJS
+# CRUD em ReactJS e NodeJS
 
-Fazendo esse CRUD para aprendizagem.
+CRUD com FrameWork React.
